@@ -1,0 +1,16 @@
+# config.yaml
+broker:
+  api_key: "YOUR_API_KEY"
+  api_secret: "YOUR_API_SECRET"
+  base_url: "https://paper-api.alpaca.markets"
+
+trading:
+  symbol: "GLD"        # Trading symbol for gold ETF
+  time_interval: "1m"  # Time interval for data (1 minute)
+  stop_loss: 0.02      # Stop loss percentage
+  take_profit: 0.05    # Take profit percentage
+
+model:
+  name: "RandomForest"
+  train_test_split: 0.8
+  n_estimators: 100
