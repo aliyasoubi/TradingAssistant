@@ -1,7 +1,21 @@
 import yfinance as yf
 import pandas as pd
 import os
+import yaml
 
+def load_config(config_file):
+    """
+    Loads configuration parameters from a YAML file.
+    
+    Parameters:
+        config_file (str): Path to the config.yaml file.
+    
+    Returns:
+        dict: Configuration dictionary containing data parameters and file paths.
+    """
+    with open(config_file, 'r') as file:
+        config = yaml.safe_load(file)
+    return config
 
 def download_data(symbol, start, end, interval):
     """
@@ -32,17 +46,18 @@ def save_data(data, file_path):
     print(f"Data saved to {file_path}")
 
 if __name__ == "__main__":
+    # Load configuration from the config.yaml file
+    config = load_config("config.yaml")
+
     # Set parameters for the download
-    symbol = "GC=F"  # Gold Futures symbol on Yahoo Finance
-    start_date = "2024-08-01"  # Start date
-    end_date = "2024-09-28"    # End date
-    interval = "15m"  # 1-minute interval data
+    symbol = config['data_params']['symbol']
+    start_date = config['data_params']['start_date']
+    end_date = config['data_params']['end_date']
+    interval = config['data_params']['interval']
 
     # Download the data
     data = download_data(symbol, start=start_date, end=end_date, interval=interval)
 
-    # Define file path for saving the data
-    file_path = os.path.join('C:\\Users\\Ali\\Projects\\TradingAssistant\\data', 'gold_data.csv')
-
-    # Save the data to CSV
+    # Get the file path from config and save the data to CSV
+    file_path = config['file_params']['save_path']
     save_data(data, file_path)
