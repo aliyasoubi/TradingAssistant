@@ -1,5 +1,14 @@
+import os
 import pandas as pd
 import talib as ta
+import yaml
+
+# Load configuration from config.yaml
+with open('config.yaml', 'r') as file:
+    config = yaml.safe_load(file)
+
+# Fetch BASE_DIR from the loaded config
+BASE_DIR = config['BASE_DIR']
 
 def add_indicators(data):
     """
@@ -27,12 +36,19 @@ def add_indicators(data):
     return data
 
 if __name__ == "__main__":
-    # Load the raw gold data from Phase 1
-    data = pd.read_csv('C:\\Users\\Ali\\Projects\\TradingAssistant\\data\\gold_data.csv')
+
+    # Construct the path to the raw gold data using BASE_DIR
+    data_path = os.path.join(BASE_DIR, 'data', 'gold_data.csv')
+
+    # Load the raw gold data
+    data = pd.read_csv(data_path)
     
     # Add technical indicators
     data = add_indicators(data)
     
+    # Construct the path to save the processed data
+    processed = os.path.join(BASE_DIR, 'data', 'processed.csv')
+    
     # Save the processed data with indicators
-    data.to_csv('C:\\Users\\Ali\\Projects\\TradingAssistant\\data\\processed_data.csv', index=False)
+    data.to_csv(processed, index=False)
     print("Technical indicators added and data saved as processed_data.csv")
