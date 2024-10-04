@@ -5,10 +5,17 @@ broker:
   base_url: "https://paper-api.alpaca.markets"
 
 data_params:
-  symbol: "GC=F"             # Trading symbol for gold futures
-  start_date: "2024-09-01"    # Start date for downloading data
-  end_date: "2024-09-30"      # End date for downloading data
-  interval: "15m"             # Data interval (e.g., '1m', '15m', '1h', '1d')
+  symbol: "GC=F"                             # Trading symbol for gold futures (e.g., GC=F for Gold)
+  # Other popular trading symbols:
+  # GBP/USD: "GBPUSD=X"                        # British Pound to US Dollar
+  # EUR/USD: "EURUSD=X"                        # Euro to US Dollar
+  # USD/JPY: "JPY=X"                           # US Dollar to Japanese Yen
+  # Bitcoin: "BTC-USD"                         # Bitcoin to US Dollar
+  # Ethereum: "ETH-USD"                        # Ethereum to US Dollar
+  # Silver: "SI=F"                             # Trading symbol for silver futures
+  start_date: "2024-09-01"                   # Start date for downloading data (format: YYYY-MM-DD)
+  end_date: "2024-09-30"                     # End date for downloading data (format: YYYY-MM-DD)
+  interval: "15m"                            # Data interval (e.g., '1m', '15m', '1h', '1d')
 
 file_params:
   save_path: "C:/Users/Ali/Projects/TradingAssistant/data/gold_data.csv"  # File path for saving data
