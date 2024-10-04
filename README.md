@@ -1,56 +1,51 @@
 # AI Trading Assistant for Short-Term Trading
 
 ## Overview
-This project is an AI-powered trading assistant designed to help predict short-term market movements (1-15 minute intervals) in gold (XAU/USD) or other financial assets. It leverages machine learning and technical analysis to improve trading decisions, providing both real-time predictions and automated trading capabilities. The AI model is trained on historical data using popular technical indicators like RSI, MACD, and Moving Averages.
+This project is an assistant program designed to help traders identify potential entry points for scalping and low-timeframe trading. The assistant uses multiple technical indicators like RSI, MACD, Simple Moving Averages (SMA), and Bollinger Bands to analyze market trends and provide confirmation signals for potential long or short positions.
 
-The project includes features for backtesting strategies, real-time trade execution via broker APIs, and dynamic risk management to maximize win rate and manage losses effectively.
+Additionally, the assistant aims to help traders avoid emotional decision-making by providing a trade confirmation system based on data-driven signals from these indicators. The project focuses on 1-minute and 5-minute timeframes to match the fast pace of scalping strategies.
+
+This tool is not a trading bot. Instead, it serves as an assistant to confirm trade ideas and provide suggestions based on the analysis of various indicators.
 
 ## Features
-- **Real-time Price Predictions**: Utilizes machine learning to predict short-term price movements based on historical and live market data.
-- **Technical Indicator Analysis**: Supports indicators like RSI, MACD, Bollinger Bands, Moving Averages, and more.
-- **Automated Trade Execution**: Integrates with broker APIs (like Alpaca) for automated trading decisions.
-- **Backtesting**: Includes the ability to backtest strategies on historical data to evaluate their performance before going live.
-- **Risk Management**: Offers dynamic stop-loss and take-profit strategies.
+- **Technical Indicator Analysis**: Provides real-time analysis using key technical indicators such as RSI, MACD, Moving Averages, and Bollinger Bands.
+- **Confirmation Signals**: Generates buy/sell suggestions based on a combination of indicators to assist in scalping strategies.
+- **Customizable Timeframes**: Optimized for 1-minute to 15-minute trading intervals.
+- **News Alerts (Upcoming)**: Future enhancements will include news alerts to inform traders of critical market events.
+- **Risk Management**: Provides suggestions for stop-loss and take-profit levels to help manage risks.
 ## Project Structure
 ```plaintext
-ai_trading_assistant/
+TradingAssistant/
 │
-├── data/                         # Directory to store datasets, historical data
-│   ├── gold_data.csv              # Example dataset for gold prices
-│   └── processed_data.csv         # Processed data for training
+├── data/                         # Stores raw and processed market data
+│   ├── BTC-USD_data.csv           # Example data for Bitcoin
+│   └── BTC-USD_processed_data.csv # Processed data with technical indicators
 │
-├── models/                       # Trained AI models (saved models)
-│   ├── model.pkl                  # Trained ML model saved here
-│   └── scaler.pkl                 # Scaler for data normalization
+├── models/                       # Folder for saved machine learning models (if applicable)
 │
-├── notebooks/                    # Jupyter notebooks for testing and experimenting
-│   └── exploratory_analysis.ipynb # Initial analysis of data
+├── notebooks/                    # Jupyter notebooks for analysis and experimentation
+│   └── exploratory_analysis.ipynb # Exploratory data analysis and visualization
 │
-├── src/                          # Core Python scripts for data processing, ML model, etc.
+├── src/                          # Core Python scripts
 │   ├── __init__.py               # Package initializer
-│   ├── data_loader.py            # Script to load and preprocess data
-│   ├── feature_engineering.py    # Feature generation (technical indicators)
-│   ├── model.py                  # Model training and prediction
-│   ├── backtest.py               # Backtesting the strategy
-│   ├── trade_bot.py              # Real-time trading using broker API
-│   └── utils.py                  # Utility functions (logging, configuration loading)
+│   ├── data_loader.py            # Download and preprocess market data
+│   ├── feature_engineering.py    # Script to calculate technical indicators
+│   ├── backtest.py               # Backtesting strategies using historical data
+│   └── utils.py                  # Utility functions like configuration and logging
 │
-├── tests/                        # Unit tests for project components
-│   ├── test_data_loader.py       # Test cases for data loader
-│   └── test_model.py             # Test cases for model
-│
-├── .gitignore                    # Files to ignore in version control (e.g., virtualenv, data files)
-├── README.md                     # Project documentation (this file)
-├── requirements.txt              # Python dependencies
-├── config.yaml                   # Configuration file for customizable settings
-└── main.py                       # Main script to run the trading assistant
+├── config.yaml                   # Configuration settings for assets, timeframes, etc.
+├── .gitignore                    # Files and directories to ignore in version control
+├── README.md                     # This file
+└── requirements.txt              # Project dependencies
+
 ```
 
 ## Installation
+To get started with this project, follow these steps:
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/ai_trading_assistant.git
-    cd ai_trading_assistant
+    git clone https://github.com/aliyasoubi/TradingAssistant.git
+    cd TradingAssistant
     ```
 
 2. Set up a virtual environment (recommended):
@@ -63,33 +58,71 @@ ai_trading_assistant/
     ```bash
     pip install -r requirements.txt
     ```
+4. Install TA-Lib (if not included in requirements):
+    ```bash
+    pip install TA-Lib
+    ```
+## Configuration
+Update the `config.yaml` file with the project base directory and other configurations.
+    ```bash
+     # Example config.yaml
+    BASE_DIR: "C:/Users/YourName/Projects/TradingAssistant"
+    TRADING_SYMBOL: "BTC-USD"
+    INTERVAL: "1m"
+    INDICATORS:
+    - RSI
+    - MACD
+    - SMA_50
+    - SMA_200
+    - BollingerBands
+    ```    
+The configuration file allows you to:
+- Change the trading symbol (e.g., BTC-USD, XAU-USD, etc.).
+- Adjust the time intervals (e.g., 1-minute, 5-minute data).
+- Specify which technical indicators to use.
+
 
 ## Usage
-1. **Preprocess Data**: Run the `data_loader.py` script to download and preprocess historical data.
+1. **Download Real-Time Data**: Run the `data_loader.py` script to download and preprocess historical data.
     ```bash
-    python src/data_loader.py
+    py src/data_loader.py
+    ```
+    This script downloads the data and saves it to the data/ directory as a CSV file. You can modify the symbol (e.g., BTC-USD, AAPL) and the interval (1-minute, 5-minute) based on your preferences.
+
+2. **Calculate Technical Indicators**: Generate and add technical indicators (e.g., RSI, MACD) to your data using the `feature_engineering.py` script:
+    ```bash
+    py src/feature_engineering.py
+    ```
+    This will add the indicators to the data and save the processed data as BTC-USD_processed_data.csv (or the asset you’re analyzing).
+3. **Analyze the Data**: Test how your trading strategy performs on historical data:
+    ```bash
+    py src/backtest.py
     ```
 
-2. **Train the Model**: Train the machine learning model using the prepared dataset.
-    ```bash
-    python src/model.py
-    ```
+4. **Real-Time Trade Confirmation (Upcoming)**: Review the processed data and use the indicators to assist in identifying entry points for potential long or short positions. The indicators can be reviewed using any data visualization tools (e.g., Excel, Pandas, Matplotlib).
 
-3. **Backtest the Strategy**: Test the performance of the trading strategy.
-    ```bash
-    python src/backtest.py
-    ```
+## Future Phases
+1. **Signal Generation & Trade Confirmation (Phase 2)**: The next phase will implement logic to generate buy/sell signals based on multiple indicators and provide a confidence score for potential trades.
 
-4. **Start Real-Time Trading**: Launch the AI trading bot for live trading.
-    ```bash
-    python main.py
+2. **Real-Time Alerts (Phase 3)**: We plan to add real-time alerts to notify traders when a trade setup matches predefined conditions.
     ```
+    This will add the indicators to the data and save the processed data as BTC-USD_processed_data.csv (or the asset you’re analyzing).
+3. **News Monitoring and Sentiment Analysis (Phase 4)**: This phase will focus on monitoring market news and alerting the user of any important developments affecting the assets being traded.
 
-## Configuration
-Modify the `config.yaml` file to change parameters such as API keys, trading symbol, or model settings.
+## Branch Naming Convention
+For easy collaboration and code tracking, follow these branch naming conventions:
+- **feature/{feature-name}**: For new features or enhancements (e.g., feature/news-alerts).
+- **bugfix/{bug-description}**: For fixing bugs (e.g., bugfix/fix-rsi-calculation).
+- **hotfix/{urgent-fix}**: For urgent or critical fixes (e.g., hotfix/api-key-error).
+- **test/{testing-branch}**: For testing purposes (e.g., test/indicator-combination).
 
 ## Contributing
-Feel free to submit issues or pull requests if you'd like to contribute!
+Contributions are welcome! If you would like to contribute to the project, please submit a pull request or open an issue for discussion.
 
 ## License
 This project is licensed under the MIT License.
+
+## Additional Notes
+- This program is meant for assisting traders in making more informed decisions based on technical analysis, and it is not a fully automated trading bot.
+- Always backtest your strategies and validate the results in a simulated environment before applying them to live trades.
+- The assistant is optimized for scalping and short-term trading but can be extended for other types of trading with some modifications.
