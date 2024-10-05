@@ -99,7 +99,12 @@ The configuration file allows you to:
     py src/backtest.py
     ```
 
-4. **Real-Time Trade Confirmation (Upcoming)**: Review the processed data and use the indicators to assist in identifying entry points for potential long or short positions. The indicators can be reviewed using any data visualization tools (e.g., Excel, Pandas, Matplotlib).
+4. **Run the Signal Generation and Confirmation**: After running the feature_engineering.py script to generate the indicator signals, run the signal_confirmation.py script to confirm the signals:
+
+    ```bash
+    py src/signal_confirmation.py
+    ```
+    This will output a CSV file (BTC-USD_confirmed_signals.csv) with final buy/sell confirmations based on the combined indicators.
 
 ## Future Phases
 1. **Signal Generation & Trade Confirmation (Phase 2)**: The next phase will implement logic to generate buy/sell signals based on multiple indicators and provide a confidence score for potential trades.

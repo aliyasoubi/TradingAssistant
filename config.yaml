@@ -1,4 +1,12 @@
 # config.yaml
+
+
+# File paths
+DATA_DIR: "data"
+PROCESSED_DATA_FILE: "gold_processed_data.csv"
+CONFIRMED_SIGNALS_FILE: "gold_confirmed_signals.csv"
+RAW_DATA_FILE: "gold_data.csv"
+
 broker:
   api_key: "YOUR_API_KEY"
   api_secret: "YOUR_API_SECRET"
